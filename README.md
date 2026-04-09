@@ -1,88 +1,180 @@
-# 🚀 ExcursionX
-### Smart Student Excursion & Trip Management System
+# ExcursionX — Smart Student Excursion & Trip Management System
 
-> Plan. Manage. Explore.  
-> A centralized platform to automate and streamline student trip management.
+> **Full-stack Java Desktop Application** | Java Swing · JDBC · MySQL
 
 ---
 
-## 🌟 Overview
+## 📁 Project Structure
 
-ExcursionX is a full-stack Java-based system designed to eliminate the chaos of manual excursion planning. It integrates booking, scheduling, budgeting, and safety into one seamless platform.
-
-Built with scalability and real-world usability in mind, the system ensures transparency, efficiency, and reliability for educational institutions.
-
----
-
-## ✨ Key Highlights
-
-- 🔄 Automated seat allocation with conflict handling  
-- ⚡ Concurrent booking system using multithreading  
-- 💳 Secure payment tracking and expense management  
-- 📊 Real-time budget monitoring and analytics  
-- 👥 Role-based access (Admin, Teacher, Student)  
-- 🚨 Emergency handling system for safety  
-- 📅 Smart scheduling with conflict detection  
-
----
-
-## 🧠 Tech Stack
-
-| Category        | Technology Used              |
-|----------------|----------------------------|
-| Language       | Java                        |
-| Database       | MySQL                       |
-| Connectivity   | JDBC                        |
-| UI             | Swing / JavaFX / JSP        |
-| Core Concepts  | OOP, Multithreading, Collections, Exception Handling |
-
----
-
-## 🏗️ System Architecture
-
-ExcursionX follows a modular architecture:
-
-- **Presentation Layer** → User Interface (GUI/Web)
-- **Business Logic Layer** → Core Java logic (OOP + Multithreading)
-- **Data Layer** → MySQL database via JDBC
+```
+minproject01/
+├── excursionx_schema.sql          ← Run this in MySQL first!
+├── run.bat                        ← Double-click to launch the app
+├── sources.txt                    ← Compile file list
+├── lib/
+│   └── mysql-connector-j-9.6.0.jar
+└── src/
+    ├── Main.java                  ← Entry point
+    ├── databases/
+    │   ├── DBconnection.java      ← Singleton DB connection
+    │   ├── UserDao.java           ← Login & Registration
+    │   ├── TripDao.java           ← Trip CRUD + manifest + expenses
+    │   ├── BookingDao.java        ← Thread-safe booking + payments
+    │   └── TeacherDao.java        ← Attendance + complaints + emergency
+    ├── models/
+    │   ├── User.java              ← Abstract base class (OOP)
+    │   ├── Admin.java
+    │   ├── Teacher.java
+    │   ├── Student.java
+    │   ├── Trip.java              ← With dates + teacher assignment
+    │   ├── Booking.java
+    │   ├── Payment.java
+    │   └── SecurityUtils.java     ← SHA-256 password hashing
+    └── ui/
+        ├── UITheme.java           ← Dark design system (colours, fonts, widgets)
+        ├── LoginFrame.java        ← Login + Register (tabbed)
+        ├── AdminDashboard.java    ← 6 tabs
+        ├── TeacherDashboard.java  ← 5 tabs
+        └── StudentDashboard.java  ← 3 tabs
+```
 
 ---
 
-## 🔐 User Roles
+## 🚀 Setup & Run
 
-### 👨‍💼 Admin
-- Create and manage trips  
-- Monitor bookings and financial reports  
-- Analyze system data  
+### Step 1 — Import Database
 
-### 👨‍🏫 Teacher
-- Manage student participation  
-- Track attendance  
-- Handle emergencies  
+Open **MySQL Workbench** (or any MySQL client) and run:
 
-### 🎓 Student
-- Explore available trips  
-- Book seats and make payments  
-- View schedules and trip details  
+```sql
+SOURCE /path/to/excursionx_schema.sql;
+```
+
+Or paste the contents of `excursionx_schema.sql` and execute.
+
+### Step 2 — Update Password (if needed)
+
+Open `src/databases/DBconnection.java` and verify:
+
+```java
+private static final String PASS = "Messi2025#";  // ← your MySQL root password
+```
+
+### Step 3 — Compile
+
+```powershell
+# From project root (minproject01/)
+javac -cp "src;lib/mysql-connector-j-9.6.0.jar" -d src `
+    src/Main.java src/databases/*.java src/models/*.java src/ui/*.java
+```
+
+### Step 4 — Run
+
+```powershell
+java -cp "src;lib/mysql-connector-j-9.6.0.jar" Main
+```
+
+**Or** simply double-click `run.bat`.
 
 ---
 
-## 🗄️ Database Design
+## 🔑 Default Test Credentials
 
-The system manages structured data including:
-
-- Students & Authorities  
-- Trip details & schedules  
-- Bookings and payments  
-- Expenses and analytics  
-
-(ER diagram included in project documentation)
+| Role    | Email                   | Password     |
+|---------|-------------------------|--------------|
+| Admin   | admin@excursionx.com    | Admin@123    |
+| Teacher | priya@excursionx.com    | Teacher@123  |
+| Teacher | rahul@excursionx.com    | Teacher@123  |
+| Student | aarav@excursionx.com    | Student@123  |
+| Student | meera@excursionx.com    | Student@123  |
+| Student | rohan@excursionx.com    | Student@123  |
 
 ---
 
-## ⚙️ Getting Started
+## 🖥️ Feature Walkthrough
 
-### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/your-username/ExcursionX.git
-cd ExcursionX
+### 👑 Admin Dashboard (6 Tabs)
+
+| Tab | Features |
+|-----|----------|
+| 🗺 **Manage Trips** | Create / Update / Delete trips with destination, dates, capacity, budget. Click a row to pre-fill form. |
+| 📋 **Manifest** | Enter Trip ID → see all booked students with payment & attendance status |
+| 💳 **Payments** | View all payment transactions; manually override payment status |
+| 📊 **Analytics** | Live stat cards: Total Trips, Students, Teachers, Bookings, Revenue, Pending Payments |
+| 👥 **Users** | View all registered teachers and students |
+| 🚨 **Emergencies** | View all emergency logs reported by teachers across all trips |
+
+### 👨‍🏫 Teacher Dashboard (5 Tabs)
+
+| Tab | Features |
+|-----|----------|
+| ✈ **My Trips** | View trips assigned to this teacher (filtered by teacher_id) |
+| 📅 **Schedule** | Write and save trip schedules to `.txt` files |
+| ✅ **Attendance** | Mark student attendance (Present / Absent / Excused) by Trip ID + Student ID |
+| 📝 **Complaints** | File conduct complaints against students |
+| 🚨 **Emergency Log** | Report emergency incidents with description + contact; view history per trip |
+
+### 🎓 Student Dashboard (3 Tabs)
+
+| Tab | Features |
+|-----|----------|
+| ✈ **Browse & Book** | See all trips with dates and capacity; confirm booking → optional immediate payment |
+| 📋 **My Bookings** | View booking history with payment/attendance status; "Pay Now" for pending |
+| 📁 **My Record** | View conduct complaints filed by teachers |
+
+---
+
+## ⚙️ Key Technical Concepts
+
+### Multithreading (Booking)
+```java
+Thread bookingThread = new Thread(() -> {
+    boolean success = bookingDao.bookTrip(student.getId(), tripId);
+    SwingUtilities.invokeLater(() -> { /* update UI */ });
+});
+bookingThread.start();
+```
+- `bookTrip()` is declared `synchronized` — prevents overbooking under concurrent access
+- DB transaction wraps capacity decrement + booking insert — atomic operation
+
+### Password Security
+- Passwords hashed with **SHA-256** via `SecurityUtils.hashPassword()`
+- Never stored in plaintext; DB uses `SHA2()` for sample data too
+
+### OOP Hierarchy
+```
+User (abstract)
+├── Admin
+├── Teacher
+└── Student
+```
+
+### Exception Handling
+- All DAO methods wrap JDBC calls in try-catch
+- SQL transactions use `conn.rollback()` on failure
+- UI shows friendly `JOptionPane` error dialogs
+
+---
+
+## 🗄️ Database Tables
+
+| Table | Purpose |
+|-------|---------|
+| `Admins` | Admin user accounts |
+| `Teachers` | Teacher accounts with contact |
+| `Students` | Student accounts with class + emergency contact |
+| `Trips` | Trip records with dates, capacity, budget, teacher |
+| `Bookings` | Student–Trip booking with payment & attendance status |
+| `Payments` | Payment transactions (UPI/Card/Cash/Net Banking) |
+| `Expenses` | Budget expense tracking per trip |
+| `Activities` | Itinerary activities per trip |
+| `Complaints` | Conduct complaints filed by teachers |
+| `EmergencyLogs` | Emergency incidents reported during trips |
+
+---
+
+## 🔧 Requirements
+
+- **Java** 8 or higher
+- **MySQL** 8.x running locally on port 3306
+- `lib/mysql-connector-j-9.6.0.jar` (already in project)
