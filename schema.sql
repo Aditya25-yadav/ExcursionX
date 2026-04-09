@@ -28,7 +28,7 @@ CREATE TABLE Students (
     class VARCHAR(50),
     email VARCHAR(100) UNIQUE NOT NULL,
     contact_no VARCHAR(15),
-    emergency_contact VARCHAR(15), [cite: 36]
+    emergency_contact VARCHAR(15), 
     password VARCHAR(255) NOT NULL
 );
 
