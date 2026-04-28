@@ -162,80 +162,181 @@ public class LoginFrame extends JFrame {
     }
 
     // ─── REGISTER TAB ──────────────────────────────────────────────────────────
+    // FIX: All fields now use fill=HORIZONTAL + weightx=1.0 so they ALWAYS expand
+    //      to fill available column space and are never rendered at minimum size.
     private JPanel buildRegisterTab() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(UITheme.BG_PANEL);
 
+        // Card-style form container
         JPanel form = new JPanel(new GridBagLayout());
-        form.setBackground(UITheme.BG_PANEL);
-        form.setBorder(BorderFactory.createEmptyBorder(14, 40, 14, 40));
+        form.setBackground(new Color(22, 30, 52));
+        form.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(50, 70, 120), 1),
+            BorderFactory.createEmptyBorder(24, 32, 24, 32)
+        ));
 
-        GridBagConstraints gbc = gbc();
+        // --- GBC for labels: anchor=WEST, no fill, fixed weight ---
+        GridBagConstraints lGbc = new GridBagConstraints();
+        lGbc.anchor = GridBagConstraints.WEST;
+        lGbc.fill   = GridBagConstraints.NONE;
+        lGbc.weightx = 0;
+        lGbc.insets  = new Insets(8, 4, 8, 12);
 
-        JLabel heading = UITheme.headerLabel("Create Account");
-        heading.setFont(new Font("SansSerif", Font.BOLD, 22));
-        gbc.gridwidth = 2;
-        form.add(heading, gbc);
+        // --- GBC for input fields: HORIZONTAL fill, weight=1 so they expand ---
+        GridBagConstraints fGbc = new GridBagConstraints();
+        fGbc.fill    = GridBagConstraints.HORIZONTAL;
+        fGbc.weightx = 1.0;
+        fGbc.insets  = new Insets(8, 0, 8, 4);
 
-        gbc.gridwidth = 1;
+        // --- Heading (spans 2 columns) ---
+        JLabel heading = new JLabel("Create Account", SwingConstants.CENTER);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        heading.setForeground(UITheme.ACCENT_GOLD);
+        GridBagConstraints hGbc = new GridBagConstraints();
+        hGbc.gridx = 0; hGbc.gridy = 0; hGbc.gridwidth = 2;
+        hGbc.fill = GridBagConstraints.HORIZONTAL;
+        hGbc.insets = new Insets(0, 0, 20, 0);
+        form.add(heading, hGbc);
 
-        gbc.gridy++; gbc.gridx = 0;
-        form.add(UITheme.label("Role"), gbc);
-        gbc.gridx = 1;
-        regRoleCombo = roleCombo();
+        // Row 1 — Role
+        lGbc.gridx = 0; lGbc.gridy = 1; form.add(mkLabel("Role"), lGbc);
+        fGbc.gridx = 1; fGbc.gridy = 1;
+        regRoleCombo = mkRegCombo();
         regRoleCombo.addActionListener(e -> updateRegFields());
-        form.add(regRoleCombo, gbc);
+        form.add(regRoleCombo, fGbc);
 
-        gbc.gridy++; gbc.gridx = 0;
-        form.add(UITheme.label("Full Name"), gbc);
-        gbc.gridx = 1;
-        regNameField = UITheme.textField();
-        regNameField.setPreferredSize(new Dimension(220, 36));
-        form.add(regNameField, gbc);
+        // Row 2 — Full Name
+        lGbc.gridy = 2; form.add(mkLabel("Full Name"), lGbc);
+        fGbc.gridy = 2;
+        regNameField = mkField();
+        form.add(regNameField, fGbc);
 
-        gbc.gridy++; gbc.gridx = 0;
-        form.add(UITheme.label("Email"), gbc);
-        gbc.gridx = 1;
-        regEmailField = UITheme.textField();
-        regEmailField.setPreferredSize(new Dimension(220, 36));
-        form.add(regEmailField, gbc);
+        // Row 3 — Email
+        lGbc.gridy = 3; form.add(mkLabel("Email"), lGbc);
+        fGbc.gridy = 3;
+        regEmailField = mkField();
+        form.add(regEmailField, fGbc);
 
-        gbc.gridy++; gbc.gridx = 0;
-        form.add(UITheme.label("Password"), gbc);
-        gbc.gridx = 1;
-        regPassField = UITheme.passwordField();
-        regPassField.setPreferredSize(new Dimension(220, 36));
-        form.add(regPassField, gbc);
+        // Row 4 — Password
+        lGbc.gridy = 4; form.add(mkLabel("Password"), lGbc);
+        fGbc.gridy = 4;
+        regPassField = mkPasswordField();
+        form.add(regPassField, fGbc);
 
-        // Dynamic extra fields
-        gbc.gridy++; gbc.gridx = 0;
-        regExtra1Label = UITheme.label("Phone No.");
-        form.add(regExtra1Label, gbc);
-        gbc.gridx = 1;
-        regExtraField1 = UITheme.textField();
-        regExtraField1.setPreferredSize(new Dimension(220, 36));
-        form.add(regExtraField1, gbc);
+        // Row 5 — Extra field 1 (Phone / Emergency Contact)
+        lGbc.gridy = 5;
+        regExtra1Label = mkLabel("Phone No.");
+        form.add(regExtra1Label, lGbc);
+        fGbc.gridy = 5;
+        regExtraField1 = mkField();
+        form.add(regExtraField1, fGbc);
 
-        gbc.gridy++; gbc.gridx = 0;
-        regExtra2Label = UITheme.label("Class");
+        // Row 6 — Extra field 2 (Class — Student only)
+        lGbc.gridy = 6;
+        regExtra2Label = mkLabel("Class (e.g. 10-A)");
         regExtra2Label.setVisible(false);
-        form.add(regExtra2Label, gbc);
-        gbc.gridx = 1;
-        regExtraField2 = UITheme.textField();
-        regExtraField2.setPreferredSize(new Dimension(220, 36));
+        form.add(regExtra2Label, lGbc);
+        fGbc.gridy = 6;
+        regExtraField2 = mkField();
         regExtraField2.setVisible(false);
-        form.add(regExtraField2, gbc);
+        form.add(regExtraField2, fGbc);
 
-        gbc.gridy++; gbc.gridx = 0; gbc.gridwidth = 2;
-        gbc.insets = new Insets(16, 0, 0, 0);
-        JButton regBtn = UITheme.secondaryButton("  REGISTER  ");
-        regBtn.setPreferredSize(new Dimension(310, 42));
+        // Row 7 — Register button (spans 2 columns)
+        JButton regBtn = mkRegButton("REGISTER");
         regBtn.addActionListener(e -> doRegister());
-        form.add(regBtn, gbc);
+        GridBagConstraints btnGbc = new GridBagConstraints();
+        btnGbc.gridx = 0; btnGbc.gridy = 7; btnGbc.gridwidth = 2;
+        btnGbc.fill = GridBagConstraints.HORIZONTAL;
+        btnGbc.insets = new Insets(20, 0, 0, 0);
+        form.add(regBtn, btnGbc);
+
+        // Add form card, centred in the tab with padding
+        GridBagConstraints pGbc = new GridBagConstraints();
+        pGbc.insets = new Insets(20, 20, 20, 20);
+        pGbc.anchor = GridBagConstraints.CENTER;
+        panel.add(form, pGbc);
 
         updateRegFields();
-        panel.add(form);
         return panel;
+    }
+
+    // ─── REGISTER FORM HELPERS ─────────────────────────────────────────────────
+    /** Label for the register form */
+    private JLabel mkLabel(String text) {
+        JLabel l = new JLabel(text);
+        l.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        l.setForeground(UITheme.TEXT_GREY);
+        return l;
+    }
+
+    /**
+     * createStyledTextField — Single source of truth for all register-form text fields.
+     * Uses 20 columns (not 0) so GridBagLayout has a meaningful preferred width,
+     * AND fill=HORIZONTAL is set at the GBC level so fields always expand.
+     */
+    private JTextField mkField() {
+        JTextField tf = new JTextField(20);
+        tf.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tf.setOpaque(true);
+        tf.setBackground(new Color(18, 25, 45));
+        tf.setForeground(Color.WHITE);
+        tf.setCaretColor(UITheme.ACCENT_GOLD);
+        tf.setSelectionColor(UITheme.ACCENT_GOLD);
+        tf.setSelectedTextColor(UITheme.BG_DARK);
+        tf.setPreferredSize(new Dimension(250, 34));
+        tf.setMinimumSize(new Dimension(150, 30));
+        tf.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(60, 80, 130), 1),
+            BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
+        return tf;
+    }
+
+    /**
+     * createStyledPasswordField — Same spec as mkField() but for passwords.
+     */
+    private JPasswordField mkPasswordField() {
+        JPasswordField pf = new JPasswordField(20);
+        pf.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        pf.setOpaque(true);
+        pf.setBackground(new Color(18, 25, 45));
+        pf.setForeground(Color.WHITE);
+        pf.setCaretColor(UITheme.ACCENT_GOLD);
+        pf.setSelectionColor(UITheme.ACCENT_GOLD);
+        pf.setSelectedTextColor(UITheme.BG_DARK);
+        pf.setPreferredSize(new Dimension(250, 34));
+        pf.setMinimumSize(new Dimension(150, 30));
+        pf.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(60, 80, 130), 1),
+            BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
+        return pf;
+    }
+
+    /** Register button */
+    private JButton mkRegButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setBackground(UITheme.ACCENT_BLUE);
+        btn.setForeground(Color.WHITE);
+        btn.setOpaque(true);
+        btn.setFocusPainted(false);
+        btn.setPreferredSize(new Dimension(250, 40));
+        btn.setMinimumSize(new Dimension(150, 36));
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        return btn;
+    }
+
+    /** Combo-box for role selection in register form */
+    private JComboBox<String> mkRegCombo() {
+        JComboBox<String> cb = new JComboBox<>(new String[]{"Admin", "Teacher", "Student"});
+        cb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cb.setBackground(new Color(18, 25, 45));
+        cb.setForeground(Color.WHITE);
+        cb.setPreferredSize(new Dimension(250, 34));
+        return cb;
     }
 
     // ─── ACTIONS ───────────────────────────────────────────────────────────────
@@ -284,19 +385,21 @@ public class LoginFrame extends JFrame {
         UserDao dao = new UserDao();
 
         if (role == 1) {
-            uid = "AD-" + (System.currentTimeMillis() % 10000);
+            uid = "AD-" + String.format("%05d", (int)(Math.random() * 89999 + 10000));
             saved = dao.registerAdmin(new Admin(uid, name, email, hashed));
         } else if (role == 2) {
             String phone = regExtraField1.getText().trim();
-            if (!phone.matches("\\d{10}")) { showError("Phone must be 10 digits."); return; }
-            uid = "TE-" + (System.currentTimeMillis() % 10000);
+            if (!phone.matches("\\d{10,15}")) { showError("Phone must be 10\u201315 digits (numbers only)."); return; }
+            uid = "TE-" + String.format("%05d", (int)(Math.random() * 89999 + 10000));
             saved = dao.registerTeacher(new Teacher(uid, name, email, hashed, phone));
         } else {
             String phone = regExtraField1.getText().trim();
             String cls   = regExtraField2.getText().trim();
-            if (!phone.matches("\\d{10}")) { showError("Emergency contact must be 10 digits."); return; }
-            if (cls.isEmpty()) { showError("Please enter your class."); return; }
-            uid = "ST-" + (System.currentTimeMillis() % 10000);
+            // FIX: allow 10\u201315 digit emergency contacts (accommodates +91 prefix stripped)
+            if (!phone.matches("\\d{10,15}")) { showError("Emergency contact must be 10\u201315 digits (numbers only)."); return; }
+            if (cls.isEmpty()) { showError("Please enter your class (e.g. 10-A)."); return; }
+            // FIX: use random 5-digit suffix to avoid timestamp collisions
+            uid = "ST-" + String.format("%05d", (int)(Math.random() * 89999 + 10000));
             saved = dao.registerStudent(new Student(uid, name, email, hashed, cls, phone));
         }
 

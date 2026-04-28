@@ -207,7 +207,8 @@ public class TeacherDao {
         } catch (SQLException e) { System.err.println("Error fetching teachers: " + e.getMessage()); }
 
         // Students
-        String sSql = "SELECT student_id, name, email, class FROM Students";
+        // FIX: `class` is a MySQL keyword — must be backtick-quoted in explicit SELECT
+        String sSql = "SELECT student_id, name, email, `class` FROM Students";
         try (Connection conn = DBconnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sSql)) {
             ResultSet rs = ps.executeQuery();

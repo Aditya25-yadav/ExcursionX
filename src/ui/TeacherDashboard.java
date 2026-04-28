@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * TeacherDashboard — portal for Teacher role.
+ * TeacherDashboard â€” portal for Teacher role.
  * Tabs: My Trips | Schedule Editor | Attendance | Complaints | Emergency Log
  */
 public class TeacherDashboard extends JFrame {
@@ -23,7 +23,7 @@ public class TeacherDashboard extends JFrame {
     public TeacherDashboard(Teacher teacher) {
         this.teacher = teacher;
 
-        setTitle("ExcursionX — Teacher Portal (" + teacher.getName() + ")");
+        setTitle("ExcursionX â€” Teacher Portal (" + teacher.getName() + ")");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 660);
         setLocationRelativeTo(null);
@@ -39,13 +39,13 @@ public class TeacherDashboard extends JFrame {
         setVisible(true);
     }
 
-    // ─── HEADER ──────────────────────────────────────────────────────────────────
+    // â”€â”€â”€ HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(UITheme.BG_PANEL);
         header.setBorder(BorderFactory.createEmptyBorder(14, 24, 14, 24));
 
-        JLabel title = UITheme.headerLabel("👨‍🏫  Teacher Portal");
+        JLabel title = UITheme.headerLabel("Teacher Portal");
         JLabel sub   = UITheme.label("Welcome, " + teacher.getName() + "  |  Contact: " + teacher.getContactNo());
         JPanel left  = new JPanel(new GridLayout(2, 1));
         left.setOpaque(false);
@@ -59,28 +59,28 @@ public class TeacherDashboard extends JFrame {
         return header;
     }
 
-    // ─── TABS ─────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€ TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JTabbedPane buildTabs() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setBackground(UITheme.BG_PANEL);
         tabs.setForeground(UITheme.TEXT_WHITE);
         tabs.setFont(UITheme.FONT_SUB);
 
-        tabs.addTab("  ✈ My Trips  ",        buildMyTripsTab());
-        tabs.addTab("  📅 Schedule  ",        buildScheduleTab());
-        tabs.addTab("  ✅ Attendance  ",      buildAttendanceTab());
-        tabs.addTab("  📝 Complaints  ",      buildComplaintTab());
-        tabs.addTab("  🚨 Emergency Log  ",   buildEmergencyTab());
+        tabs.addTab("  My Trips  ",        buildMyTripsTab());
+        tabs.addTab("  Schedule  ",        buildScheduleTab());
+        tabs.addTab("  Attendance  ",      buildAttendanceTab());
+        tabs.addTab("  Complaints  ",      buildComplaintTab());
+        tabs.addTab("  Emergency Log  ",   buildEmergencyTab());
         return tabs;
     }
 
-    // ─── TAB 1: MY TRIPS ─────────────────────────────────────────────────────────
+    // â”€â”€â”€ TAB 1: MY TRIPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildMyTripsTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(UITheme.BG_DARK);
         panel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-        String[] cols = {"Trip ID", "Destination", "Start Date", "End Date", "Seats Left", "Budget ₹"};
+        String[] cols = {"Trip ID", "Destination", "Start Date", "End Date", "Seats Left", "Budget (Rs)"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -93,14 +93,14 @@ public class TeacherDashboard extends JFrame {
                 model.addRow(new Object[]{
                     t.getTripId(), t.getDestination(),
                     t.getStartDate(), t.getEndDate(),
-                    t.getCapacity(), "₹" + t.getTotalBudget()
+                    t.getCapacity(), "Rs." + t.getTotalBudget()
                 });
             }
         };
 
         JPanel top = UITheme.cardPanel();
         top.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 8));
-        JButton refreshBtn = UITheme.secondaryButton("🔄 Refresh");
+        JButton refreshBtn = UITheme.secondaryButton("Refresh");
         refreshBtn.addActionListener(e -> refresh.run());
         top.add(UITheme.label("Trips assigned to me:"));
         top.add(refreshBtn);
@@ -111,7 +111,7 @@ public class TeacherDashboard extends JFrame {
         return panel;
     }
 
-    // ─── TAB 2: SCHEDULE EDITOR ──────────────────────────────────────────────────
+    // â”€â”€â”€ TAB 2: SCHEDULE EDITOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildScheduleTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(UITheme.BG_DARK);
@@ -133,7 +133,7 @@ public class TeacherDashboard extends JFrame {
                            + "Day 4: Return journey\n");
         JScrollPane scroll = UITheme.scrollPane(scheduleArea);
 
-        JButton saveBtn = UITheme.primaryButton("💾 Save Schedule to File");
+        JButton saveBtn = UITheme.primaryButton("Save Schedule to File");
         saveBtn.addActionListener(e -> {
             String name = tripNameField.getText().trim();
             if (name.isEmpty()) { showError("Enter a trip name first."); return; }
@@ -151,7 +151,7 @@ public class TeacherDashboard extends JFrame {
         return panel;
     }
 
-    // ─── TAB 3: ATTENDANCE ───────────────────────────────────────────────────────
+    // â”€â”€â”€ TAB 3: ATTENDANCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildAttendanceTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(UITheme.BG_DARK);
@@ -174,7 +174,7 @@ public class TeacherDashboard extends JFrame {
         g.gridy++; g.gridx = 0;
         form.add(UITheme.label("Status:"),      g); g.gridx = 1; form.add(statusCombo, g);
 
-        JButton markBtn = UITheme.primaryButton("✅ Mark Attendance");
+        JButton markBtn = UITheme.primaryButton("Mark Attendance");
         markBtn.addActionListener(e -> {
             try {
                 int    tid    = Integer.parseInt(tripIdField.getText().trim());
@@ -182,7 +182,7 @@ public class TeacherDashboard extends JFrame {
                 String status = (String) statusCombo.getSelectedItem();
                 if (sid.isEmpty()) { showError("Enter Student ID."); return; }
                 teacherDao.markAttendance(tid, sid, status);
-                showSuccess("Attendance marked: " + sid + " → " + status);
+                showSuccess("Attendance marked: " + sid + " -> " + status);
             } catch (NumberFormatException ex) { showError("Trip ID must be a number."); }
         });
 
@@ -203,7 +203,7 @@ public class TeacherDashboard extends JFrame {
         JPanel info = UITheme.cardPanel();
         info.setLayout(new BorderLayout());
         JLabel hint = UITheme.label(
-            "<html><br>ℹ️  Enter a Trip ID and Student ID to mark attendance.<br>"
+            "<html><br>Note: Enter a Trip ID and Student ID to mark attendance.<br>"
             + "Student must have an existing booking for that trip.<br>"
             + "Status options: <b>Present</b> | <b>Absent</b> | <b>Excused</b></html>");
         hint.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -211,7 +211,7 @@ public class TeacherDashboard extends JFrame {
         return info;
     }
 
-    // ─── TAB 4: COMPLAINTS ───────────────────────────────────────────────────────
+    // â”€â”€â”€ TAB 4: COMPLAINTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildComplaintTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(UITheme.BG_DARK);
@@ -229,7 +229,7 @@ public class TeacherDashboard extends JFrame {
         issueArea.setToolTipText("Describe the conduct issue in detail");
         JScrollPane scroll = UITheme.scrollPane(issueArea);
 
-        JButton fileBtn = UITheme.dangerButton("⚠ File Complaint");
+        JButton fileBtn = UITheme.dangerButton("File Complaint");
         fileBtn.addActionListener(e -> {
             String sid   = studentIdField.getText().trim();
             String issue = issueArea.getText().trim();
@@ -249,60 +249,105 @@ public class TeacherDashboard extends JFrame {
         return panel;
     }
 
-    // ─── TAB 5: EMERGENCY LOG ────────────────────────────────────────────────────
+    // â”€â”€â”€ TAB 5: EMERGENCY LOG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private JPanel buildEmergencyTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(UITheme.BG_DARK);
         panel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-        // ── Log Form ──
-        JPanel form = UITheme.cardPanel();
-        form.setLayout(new GridBagLayout());
-        GridBagConstraints g = formGbc();
+        // â”€â”€ Load teacher's trips into combo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        ArrayList<Trip> myTrips = tripDao.getTripsForTeacher(teacher.getId());
+        java.util.Vector<String> tripItems = new java.util.Vector<>();
+        if (myTrips.isEmpty()) {
+            tripItems.add("No trips assigned \u2014 ask Admin to assign you a trip");
+        } else {
+            for (Trip t : myTrips) tripItems.add(t.getTripId() + "  \u2014  " + t.getDestination());
+        }
+        JComboBox<String> tripCombo = new JComboBox<>(tripItems);
+        UITheme.styleCombo(tripCombo);
+        tripCombo.setPreferredSize(new Dimension(280, 32));
+        JButton reloadTripsBtn = UITheme.secondaryButton("Reload");
+        reloadTripsBtn.setFont(UITheme.FONT_SMALL);
 
-        JTextField tripIdField  = UITheme.textField(); tripIdField.setPreferredSize(new Dimension(120, 32));
-        JTextField contactField = UITheme.textField(); contactField.setPreferredSize(new Dimension(160, 32));
-        contactField.setText(teacher.getContactNo());
-        JTextArea  descArea     = UITheme.textArea(); descArea.setRows(3);
-        descArea.setToolTipText("Describe the emergency in detail");
-        JScrollPane descScroll  = UITheme.scrollPane(descArea);
-        descScroll.setPreferredSize(new Dimension(400, 90));
+        // â”€â”€ Log Form card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setBackground(new Color(22, 30, 52));
+        form.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(50, 70, 120), 1),
+            BorderFactory.createEmptyBorder(18, 24, 18, 24)
+        ));
 
-        g.gridwidth = 2;
-        JLabel heading = UITheme.label("🚨  Log Emergency Incident");
-        heading.setFont(UITheme.FONT_SUB);
+        // label GBC: no fill, left-anchored, fixed width
+        GridBagConstraints lG = new GridBagConstraints();
+        lG.anchor  = GridBagConstraints.NORTHWEST;
+        lG.fill    = GridBagConstraints.NONE;
+        lG.weightx = 0;
+        lG.insets  = new Insets(10, 4, 10, 12);
+
+        // field GBC: FIX â€” HORIZONTAL fill + weightx=1.0 so fields always expand
+        GridBagConstraints fG = new GridBagConstraints();
+        fG.fill    = GridBagConstraints.HORIZONTAL;
+        fG.weightx = 1.0;
+        fG.insets  = new Insets(10, 0, 10, 4);
+
+        // Heading
+        JLabel heading = new JLabel("Log Emergency Incident", SwingConstants.LEFT);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 16));
         heading.setForeground(UITheme.ERROR_RED);
-        form.add(heading, g);
+        GridBagConstraints hG = new GridBagConstraints();
+        hG.gridx = 0; hG.gridy = 0; hG.gridwidth = 2;
+        hG.fill  = GridBagConstraints.HORIZONTAL;
+        hG.insets = new Insets(0, 0, 14, 0);
+        form.add(heading, hG);
 
-        g.gridy++; g.gridwidth = 1;
-        form.add(UITheme.label("Trip ID:"),   g); g.gridx = 1; form.add(tripIdField, g);
-        g.gridy++; g.gridx = 0;
-        form.add(UITheme.label("Contact No:"), g); g.gridx = 1; form.add(contactField, g);
-        g.gridy++; g.gridx = 0; g.gridwidth = 2;
-        form.add(UITheme.label("Description:"), g);
-        g.gridy++;
-        form.add(descScroll, g);
+        // Row 1 \u2014 Select Trip
+        lG.gridx = 0; lG.gridy = 1;
+        form.add(emLabel("Select Trip:"), lG);
+        fG.gridx = 1; fG.gridy = 1;
+        JPanel comboRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+        comboRow.setOpaque(false);
+        comboRow.add(tripCombo);
+        comboRow.add(reloadTripsBtn);
+        form.add(comboRow, fG);
 
-        JButton logBtn = UITheme.dangerButton("🚨 Log Emergency");
-        logBtn.addActionListener(e -> {
-            try {
-                int    tid     = Integer.parseInt(tripIdField.getText().trim());
-                String desc    = descArea.getText().trim();
-                String contact = contactField.getText().trim();
-                if (desc.isEmpty()) { showError("Describe the emergency."); return; }
-                boolean ok = teacherDao.logEmergency(tid, teacher.getId(), desc, contact);
-                if (ok) {
-                    showSuccess("Emergency logged for Trip ID: " + tid);
-                    descArea.setText("");
-                    refreshEmergencyTable(tid, emergencyModel);
-                } else showError("Failed to log emergency. Check Trip ID.");
-            } catch (NumberFormatException ex) { showError("Trip ID must be a number."); }
-        });
+        // Row 2 \u2014 Contact No  (FIX: fill=HORIZONTAL ensures field expands)
+        lG.gridy = 2; form.add(emLabel("Contact No:"), lG);
+        fG.gridy = 2;
+        JTextField contactField = emField();
+        contactField.setText(teacher.getContactNo());
+        form.add(contactField, fG);
 
-        g.gridy++; g.gridwidth = 2; g.insets = new Insets(12, 8, 8, 8);
-        form.add(logBtn, g);
+        // Row 3 \u2014 Description label
+        lG.gridy = 3; lG.anchor = GridBagConstraints.WEST;
+        form.add(emLabel("Description:"), lG);
 
-        // ── Historical logs table ──
+        // Row 4 \u2014 Description textarea  (FIX: JTextArea(5,25) fill=BOTH)
+        GridBagConstraints taG = new GridBagConstraints();
+        taG.gridx = 0; taG.gridy = 4; taG.gridwidth = 2;
+        taG.fill    = GridBagConstraints.BOTH;
+        taG.weightx = 1.0; taG.weighty = 1.0;
+        taG.insets  = new Insets(2, 4, 10, 4);
+        JTextArea descArea = emTextArea();
+        JScrollPane descScroll = new JScrollPane(descArea);
+        descScroll.getViewport().setBackground(new Color(18, 25, 45));
+        descScroll.setBackground(new Color(18, 25, 45));
+        descScroll.setBorder(BorderFactory.createLineBorder(new Color(60, 80, 130), 1));
+        descScroll.setMinimumSize(new Dimension(200, 110));
+        descScroll.setPreferredSize(new Dimension(380, 120));
+        form.add(descScroll, taG);
+
+        // Row 5 \u2014 Log button
+        JButton logBtn = UITheme.dangerButton("Log Emergency");
+        logBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        logBtn.setPreferredSize(new Dimension(180, 38));
+        GridBagConstraints btnG = new GridBagConstraints();
+        btnG.gridx = 0; btnG.gridy = 5; btnG.gridwidth = 2;
+        btnG.fill   = GridBagConstraints.NONE;
+        btnG.anchor = GridBagConstraints.CENTER;
+        btnG.insets = new Insets(12, 0, 6, 0);
+        form.add(logBtn, btnG);
+
+        // â”€â”€ Historical logs table â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         String[] cols = {"ID", "Reported By", "Description", "Contact", "Logged At"};
         emergencyModel = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) { return false; }
@@ -310,18 +355,13 @@ public class TeacherDashboard extends JFrame {
         JTable table = new JTable(emergencyModel);
         UITheme.styleTable(table);
         table.setRowHeight(36);
+        table.getColumnModel().getColumn(2).setPreferredWidth(300);
 
         JPanel tableTop = UITheme.cardPanel();
         tableTop.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 6));
-        JTextField viewTripField = UITheme.textField(); viewTripField.setPreferredSize(new Dimension(90, 30));
-        JButton loadBtn = UITheme.secondaryButton("📋 Load Logs for Trip");
-        loadBtn.addActionListener(e -> {
-            try {
-                int tid = Integer.parseInt(viewTripField.getText().trim());
-                refreshEmergencyTable(tid, emergencyModel);
-            } catch (NumberFormatException ex) { showError("Enter a valid Trip ID."); }
-        });
-        tableTop.add(UITheme.label("Trip ID:")); tableTop.add(viewTripField); tableTop.add(loadBtn);
+        JButton loadBtn = UITheme.secondaryButton("Load Logs for Selected Trip");
+        tableTop.add(UITheme.label("Emergency history for selected trip:"));
+        tableTop.add(loadBtn);
 
         JPanel tableSection = new JPanel(new BorderLayout(4, 4));
         tableSection.setOpaque(false);
@@ -329,15 +369,58 @@ public class TeacherDashboard extends JFrame {
         tableSection.add(UITheme.scrollPane(table), BorderLayout.CENTER);
 
         JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, form, tableSection);
-        split.setDividerLocation(280);
+        split.setDividerLocation(330);
         split.setBackground(UITheme.BG_DARK);
         split.setBorder(null);
-
         panel.add(split, BorderLayout.CENTER);
+
+        // â”€â”€ Trip ID extractor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        java.util.function.Supplier<Integer> getSelectedTripId = () -> {
+            String sel = (String) tripCombo.getSelectedItem();
+            if (sel == null || sel.contains("No trips")) return -1;
+            try { return Integer.parseInt(sel.split("  \u2014  ")[0].trim()); }
+            catch (NumberFormatException ex) { return -1; }
+        };
+
+        // â”€â”€ Reload trips â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        reloadTripsBtn.addActionListener(e -> {
+            tripCombo.removeAllItems();
+            ArrayList<Trip> fresh = tripDao.getTripsForTeacher(teacher.getId());
+            if (fresh.isEmpty()) {
+                tripCombo.addItem("No trips assigned \u2014 ask Admin to assign you a trip");
+            } else {
+                for (Trip t : fresh) tripCombo.addItem(t.getTripId() + "  \u2014  " + t.getDestination());
+            }
+        });
+
+        // â”€â”€ Log Emergency â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        logBtn.addActionListener(e -> {
+            int tid = getSelectedTripId.get();
+            if (tid == -1) { showError("No valid trip selected.\nAsk the Admin to assign you a trip first."); return; }
+            String desc    = descArea.getText().trim();
+            String contact = contactField.getText().trim();
+            if (desc.isEmpty()) { showError("Please type a description in the Description box."); return; }
+            boolean ok = teacherDao.logEmergency(tid, teacher.getId(), desc, contact);
+            if (ok) {
+                showSuccess("Emergency logged successfully for Trip ID: " + tid);
+                descArea.setText("");
+                refreshEmergencyTable(tid, emergencyModel);
+            } else {
+                showError("Failed to log emergency.\nVerify Trip ID exists.\nSee console for SQL error details.");
+            }
+        });
+
+        // â”€â”€ Load historical logs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        loadBtn.addActionListener(e -> {
+            int tid = getSelectedTripId.get();
+            if (tid == -1) { showError("No valid trip selected."); return; }
+            refreshEmergencyTable(tid, emergencyModel);
+        });
+
         return panel;
     }
 
-    // Held as field so the Log button can refresh it
+    // Held as field so logBtn can refresh the table after a successful insert
     private DefaultTableModel emergencyModel;
 
     private void refreshEmergencyTable(int tripId, DefaultTableModel model) {
@@ -346,12 +429,66 @@ public class TeacherDashboard extends JFrame {
         for (String[] row : teacherDao.getEmergencyLogs(tripId)) model.addRow(row);
     }
 
-    // ─── UTILITIES ────────────────────────────────────────────────────────────────
+    // â”€â”€â”€ EMERGENCY LOG HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    /** Styled label for emergency form */
+    private JLabel emLabel(String text) {
+        JLabel l = new JLabel(text);
+        l.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        l.setForeground(UITheme.TEXT_GREY);
+        return l;
+    }
+
+    /**
+     * createStyledTextField for emergency form.
+     * 20 columns gives GridBagLayout a real preferred width base.
+     * fill=HORIZONTAL on the GBC ensures it always expands to fill the column.
+     */
+    private JTextField emField() {
+        JTextField tf = new JTextField(20);
+        tf.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tf.setOpaque(true);
+        tf.setBackground(new Color(18, 25, 45));
+        tf.setForeground(Color.WHITE);
+        tf.setCaretColor(UITheme.ACCENT_GOLD);
+        tf.setSelectionColor(UITheme.ACCENT_GOLD);
+        tf.setSelectedTextColor(UITheme.BG_DARK);
+        tf.setPreferredSize(new Dimension(250, 34));
+        tf.setMinimumSize(new Dimension(150, 30));
+        tf.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(60, 80, 130), 1),
+            BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
+        return tf;
+    }
+
+    /**
+     * createStyledTextArea for emergency log description.
+     * 5 rows x 25 columns. Line-wrap enabled. White text on dark BG.
+     */
+    private JTextArea emTextArea() {
+        JTextArea ta = new JTextArea(5, 25);
+        ta.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        ta.setOpaque(true);
+        ta.setBackground(new Color(18, 25, 45));
+        ta.setForeground(Color.WHITE);
+        ta.setCaretColor(UITheme.ACCENT_GOLD);
+        ta.setSelectionColor(UITheme.ACCENT_GOLD);
+        ta.setSelectedTextColor(UITheme.BG_DARK);
+        ta.setLineWrap(true);
+        ta.setWrapStyleWord(true);
+        ta.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        return ta;
+    }
+
+    // â”€â”€â”€ UTILITIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private GridBagConstraints formGbc() {
         GridBagConstraints g = new GridBagConstraints();
         g.gridx = 0; g.gridy = 0;
-        g.anchor = GridBagConstraints.WEST;
-        g.insets = new Insets(7, 8, 7, 10);
+        g.anchor  = GridBagConstraints.WEST;
+        g.fill    = GridBagConstraints.HORIZONTAL;
+        g.weightx = 1.0;
+        g.insets  = new Insets(7, 8, 7, 10);
         return g;
     }
 

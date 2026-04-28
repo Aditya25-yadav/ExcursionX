@@ -43,7 +43,8 @@ public class UserDao {
     }
 
     public boolean registerStudent(Student student) {
-        String sql = "INSERT INTO Students (student_id, name, email, password, class, emergency_contact) VALUES (?, ?, ?, ?, ?, ?)";
+        // FIX: `class` is a MySQL keyword — must be backtick-quoted
+        String sql = "INSERT INTO Students (student_id, name, email, password, `class`, emergency_contact) VALUES (?, ?, ?, ?, ?, ?)";
         return executeUpdate(sql, student.getId(), student.getName(), student.getEmail(), student.getPassword(), student.getStudentClass(), student.getEmergencyContact());
     }
 

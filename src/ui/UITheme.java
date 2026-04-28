@@ -96,9 +96,12 @@ public class UITheme {
     public static JTextField textField() {
         JTextField tf = new JTextField();
         tf.setFont(FONT_BODY);
+        tf.setOpaque(true);                        // FIX: must be true so custom BG is actually painted
         tf.setBackground(BG_CARD);
         tf.setForeground(TEXT_WHITE);
         tf.setCaretColor(ACCENT_GOLD);
+        tf.setSelectionColor(ACCENT_GOLD);
+        tf.setSelectedTextColor(BG_DARK);
         tf.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(60, 80, 130), 1),
                 BorderFactory.createEmptyBorder(8, 12, 8, 12)));
@@ -109,9 +112,12 @@ public class UITheme {
     public static JPasswordField passwordField() {
         JPasswordField pf = new JPasswordField();
         pf.setFont(FONT_BODY);
+        pf.setOpaque(true);                        // FIX: must be true so custom BG is painted
         pf.setBackground(BG_CARD);
         pf.setForeground(TEXT_WHITE);
         pf.setCaretColor(ACCENT_GOLD);
+        pf.setSelectionColor(ACCENT_GOLD);
+        pf.setSelectedTextColor(BG_DARK);
         pf.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(60, 80, 130), 1),
                 BorderFactory.createEmptyBorder(8, 12, 8, 12)));
@@ -193,25 +199,72 @@ public class UITheme {
     public static JTextArea textArea() {
         JTextArea ta = new JTextArea();
         ta.setFont(FONT_BODY);
+        ta.setOpaque(true);                        // FIX: must be true so custom BG is painted
         ta.setBackground(BG_CARD);
         ta.setForeground(TEXT_WHITE);
         ta.setCaretColor(ACCENT_GOLD);
+        ta.setSelectionColor(ACCENT_GOLD);
+        ta.setSelectedTextColor(BG_DARK);
         ta.setLineWrap(true);
         ta.setWrapStyleWord(true);
         ta.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
         return ta;
     }
 
-    /** Apply global dark Look-and-Feel defaults */
+    /** Apply global dark Look-and-Feel defaults.
+     *  Called BEFORE any components are created so UIManager keys take effect. */
     public static void applyGlobalDefaults() {
-        UIManager.put("TabbedPane.background", BG_PANEL);
-        UIManager.put("TabbedPane.foreground", TEXT_WHITE);
-        UIManager.put("TabbedPane.selected", BG_CARD);
-        UIManager.put("TabbedPane.selectedForeground", ACCENT_GOLD);
-        UIManager.put("TabbedPane.contentAreaColor", BG_PANEL);
-        UIManager.put("TabbedPane.font", FONT_SUB);
-        UIManager.put("Panel.background", BG_PANEL);
-        UIManager.put("OptionPane.background", BG_PANEL);
+        // ── Text Fields ──────────────────────────────────────────────────────────
+        UIManager.put("TextField.background",         BG_CARD);
+        UIManager.put("TextField.foreground",         TEXT_WHITE);
+        UIManager.put("TextField.caretForeground",    ACCENT_GOLD);
+        UIManager.put("TextField.selectionBackground",ACCENT_GOLD);
+        UIManager.put("TextField.selectionForeground",BG_DARK);
+        UIManager.put("TextField.inactiveForeground", TEXT_GREY);
+        UIManager.put("TextField.font",               FONT_BODY);
+
+        // ── Password Fields ───────────────────────────────────────────────────────
+        UIManager.put("PasswordField.background",         BG_CARD);
+        UIManager.put("PasswordField.foreground",         TEXT_WHITE);
+        UIManager.put("PasswordField.caretForeground",    ACCENT_GOLD);
+        UIManager.put("PasswordField.selectionBackground",ACCENT_GOLD);
+        UIManager.put("PasswordField.selectionForeground",BG_DARK);
+        UIManager.put("PasswordField.font",               FONT_BODY);
+
+        // ── Text Areas ────────────────────────────────────────────────────────────
+        UIManager.put("TextArea.background",         BG_CARD);
+        UIManager.put("TextArea.foreground",         TEXT_WHITE);
+        UIManager.put("TextArea.caretForeground",    ACCENT_GOLD);
+        UIManager.put("TextArea.selectionBackground",ACCENT_GOLD);
+        UIManager.put("TextArea.selectionForeground",BG_DARK);
+        UIManager.put("TextArea.font",               FONT_BODY);
+
+        // ── Combo Box ─────────────────────────────────────────────────────────────
+        UIManager.put("ComboBox.background",         BG_CARD);
+        UIManager.put("ComboBox.foreground",         TEXT_WHITE);
+        UIManager.put("ComboBox.selectionBackground",ACCENT_GOLD);
+        UIManager.put("ComboBox.selectionForeground",BG_DARK);
+        UIManager.put("ComboBox.font",               FONT_BODY);
+
+        // ── Panels / Viewport ─────────────────────────────────────────────────────
+        UIManager.put("Panel.background",    BG_PANEL);
+        UIManager.put("Viewport.background", BG_PANEL);
+        UIManager.put("ScrollPane.background",BG_PANEL);
+
+        // ── Option Pane ───────────────────────────────────────────────────────────
+        UIManager.put("OptionPane.background",        BG_PANEL);
         UIManager.put("OptionPane.messageForeground", TEXT_WHITE);
+
+        // ── Tabbed Pane ───────────────────────────────────────────────────────────
+        UIManager.put("TabbedPane.background",        BG_PANEL);
+        UIManager.put("TabbedPane.foreground",        TEXT_WHITE);
+        UIManager.put("TabbedPane.selected",          BG_CARD);
+        UIManager.put("TabbedPane.selectedForeground",ACCENT_GOLD);
+        UIManager.put("TabbedPane.contentAreaColor",  BG_PANEL);
+        UIManager.put("TabbedPane.font",              FONT_SUB);
+
+        // ── Labels ────────────────────────────────────────────────────────────────
+        UIManager.put("Label.foreground", TEXT_WHITE);
+        UIManager.put("Label.font",       FONT_BODY);
     }
 }

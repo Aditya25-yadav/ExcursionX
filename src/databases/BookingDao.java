@@ -226,10 +226,10 @@ public class BookingDao {
      */
     public HashMap<String, String> getAnalytics() {
         HashMap<String, String> stats = new HashMap<>();
-        Connection conn = DBconnection.getConnection();
-        if (conn == null) { stats.put("error", "DB Offline"); return stats; }
+        // FIX: Use try-with-resources to ensure the connection is always closed
+        try (Connection conn = DBconnection.getConnection()) {
+            if (conn == null) { stats.put("error", "DB Offline"); return stats; }
 
-        try {
             // Total Trips
             try (PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM Trips")) {
                 ResultSet rs = ps.executeQuery();
